@@ -5,7 +5,7 @@ from django.db import models
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=30, blank=False, null=False)
-
+    
     @property
     def name(self):
         return f"{self.user.first_name} {self.user.last_name}"
