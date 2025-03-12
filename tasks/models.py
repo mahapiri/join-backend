@@ -1,6 +1,13 @@
 from django.db import models
 from profiles.models import Profile
 
+STATUS_CHOICES = [
+    ("to_do", "To do"),
+    ("in_progress", "In progress"),
+    ("await_feedback", "Await feedback"),
+    ("done", "Done"),
+]
+
 PRIO_CHOICES = [
     ("urgent", "Urgent"),
     ("medium", "Medium"),
@@ -16,6 +23,7 @@ CATEGORY_CHOICES = [
 
 
 class Task(models.Model):
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES ,null=False, blank=True, default="to_do")
     title = models.CharField(max_length=255, null=False, blank=False)
     description = models.TextField()
     due_date = models.DateField(null=False, blank=False)
