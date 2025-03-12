@@ -19,10 +19,12 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from contacts.api.views import ContactsViewSet
 from profiles.api.views import ProfilesViewSet
+from tasks.api.views import TasksViewSet
 
 router = DefaultRouter()
 router.register(r'profiles', ProfilesViewSet, basename='profiles')
 router.register(r'contacts', ContactsViewSet, basename='contacts')
+router.register(r'tasks', TasksViewSet, basename='tasks')
 
 
 urlpatterns = [

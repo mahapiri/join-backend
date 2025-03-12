@@ -1,8 +1,5 @@
-
-
 from os import path
-
-from contacts.api.views import ContactCreateView, ContactDetailViewSet
+from contacts.api.views import ContactDetailViewSet
 
 
 urlpatterns = [
