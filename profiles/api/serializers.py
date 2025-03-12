@@ -6,10 +6,10 @@ from profiles.models import Profile
 
 
 class ProfilesSerializer(serializers.HyperlinkedModelSerializer):
-    email = serializers.EmailField(source='user.email')
+    email = serializers.EmailField(source="user.email", read_only=True)
     name = serializers.CharField(read_only=True)
     initials = serializers.CharField(read_only=True)
-    phone = serializers.CharField(max_length=30)
+    phone = serializers.CharField(read_only=False)
 
     class Meta:
         model = Profile
