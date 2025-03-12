@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from tasks.models import Task
+from tasks.models import Subtask, Task
 
 
 class TasksSerializer(serializers.ModelSerializer):
@@ -16,3 +16,9 @@ class TasksSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Task.objects.create(**validated_data)
+    
+class SubtaskSerializer(serializers.ModelSerializer):
+    task_title = serializers.CharField(source="task.title", read_only=True)
+    class Meta:
+        model = Subtask
+        fields = ['id', 'task', 'title', 'task_title']
