@@ -4,9 +4,10 @@ from contacts.models import Contact
 
 # Register your models here.
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'phone')
-    search_fields = ('name', 'email')
-    list_filter = ('email',)
+    list_display = ('name', 'first_name', 'last_name', 'email', 'phone', 'user')  
+    search_fields = ('name', 'email', 'user__username')  
+    list_filter = ('user',)
+    exclude = ('user',)
 
 
 admin.site.register(Contact, ContactAdmin)

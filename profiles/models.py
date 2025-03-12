@@ -4,6 +4,8 @@ from django.db import models
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=75, null=False, blank= False)
+    email = models.EmailField(max_length=155, null=False, blank=False)
     phone = models.CharField(max_length=30, blank=False, null=False)
     
     @property

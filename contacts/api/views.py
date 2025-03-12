@@ -6,8 +6,9 @@ from contacts.models import Contact
 
 # Create your views here.
 class ContactsViewSet(viewsets.ModelViewSet):
-    queryset = Contact.objects.all().order_by('pk')
+    queryset = Contact.objects.all().order_by('name')
     serializer_class = ContactsSerializer
+    permission_classes = [AllowAny]
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
