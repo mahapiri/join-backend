@@ -6,8 +6,8 @@ from tasks.models import CATEGORY_CHOICES, PRIO_CHOICES, STATUS_CHOICES, Subtask
 class TasksSerializer(serializers.ModelSerializer):
     status = serializers.ChoiceField(choices=STATUS_CHOICES, default="to_do")
     title = serializers.CharField(max_length=255)
-    description = serializers.CharField()
-    due_date = serializers.DateField()
+    description = serializers.CharField(required=False, allow_blank=True)
+    due_date = serializers.DateField(required=True)
     prio = serializers.CharField(required=False, allow_blank=True, default="low")
     category = serializers.ChoiceField(choices=CATEGORY_CHOICES)
 
