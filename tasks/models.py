@@ -25,9 +25,9 @@ CATEGORY_CHOICES = [
 class Task(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICES ,null=False, blank=True, default="to_do")
     title = models.CharField(max_length=255, null=False, blank=False)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     due_date = models.DateField(null=False, blank=False)
-    prio = models.CharField(max_length=10, choices=PRIO_CHOICES, default="low")
+    prio = models.CharField(max_length=10, choices=PRIO_CHOICES, null=True, blank=True, default="low")
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, null=False, blank=False, default="user_story")
     created_date = models.DateField(auto_now_add=True)
 

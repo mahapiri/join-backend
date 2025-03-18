@@ -8,7 +8,7 @@ class TasksSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
     due_date = serializers.DateField()
-    prio = serializers.ChoiceField(choices=PRIO_CHOICES)
+    prio = serializers.CharField(required=False, allow_blank=True, default="low")
     category = serializers.ChoiceField(choices=CATEGORY_CHOICES)
 
     class Meta:
@@ -17,6 +17,9 @@ class TasksSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Task.objects.create(**validated_data)
+    
+    def validate_prio(self, value):
+        return value if value else "low"
     
 class SubtaskSerializer(serializers.ModelSerializer):
     task_title = serializers.CharField(source="task.title", read_only=True)
