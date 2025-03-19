@@ -1,10 +1,11 @@
 
+from encodings.punycode import T
 from rest_framework import generics, status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from tasks.api.serializers import SubtaskSerializer, TasksSerializer
-from tasks.models import Subtask, Task
+from tasks.api.serializers import AssignedToSerializer, SubtaskSerializer, TasksSerializer
+from tasks.models import AssignedTo, Subtask, Task
 
 
 class TasksViewSet(viewsets.ModelViewSet):
@@ -17,7 +18,8 @@ class TasksViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
 class TaskDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all().order_by('pk')
     serializer_class = TasksSerializer
@@ -30,7 +32,7 @@ class SubtaskViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         task_id = self.kwargs['task_id']
         return Subtask.objects.filter(task_id=task_id).order_by('id')
-    
+
     def perform_create(self, serializer):
         task = Task.objects.get(id=self.kwargs['task_id'])
         serializer.save(task=task)
@@ -42,7 +44,8 @@ class SubtaskViewset(viewsets.ModelViewSet):
             serializer.save(task=task)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
 class SubtaskDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = Subtask.objects.all()
     serializer_class = SubtaskSerializer
@@ -50,10 +53,39 @@ class SubtaskDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         task_id = self.kwargs['task_id']
         return Subtask.objects.filter(task_id=task_id)
-    
+
     def perform_update(self, serializer):
         task = Task.objects.get(id=self.kwargs['task_id'])
         serializer.save(task=task)
-    
+
     def perform_destroy(self, instance):
         instance.delete()
+
+
+class AssignedToViewSet(viewsets.ModelViewSet):
+    queryset = AssignedTo.objects.all()
+    serializer_class = AssignedToSerializer
+
+    def get_queryset(self):
+        task_id = self.kwargs['task_id']
+        return AssignedTo.objects.filter(task_id=task_id)
+
+    def perform_create(self, serializer):
+        task = Task.objects.get(id=self.kwargs['task_id'])
+        serializer.save(task=task)
+
+    def create(self, request, *args, **kwargs):
+        task_id = self.kwargs['task_id']
+        # Assuming profile data is passed in the request
+        profile_data = request.data.get('profile')
+
+        if not profile_data:
+            return Response({"detail": "Profile is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create the assigned-to entry
+        assigned_to = AssignedTo.objects.create(
+            task_id=task_id, profile_id=profile_data)
+
+        # Use the serializer to return the created object
+        serializer = AssignedToSerializer(assigned_to)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -1,6 +1,5 @@
-from email.policy import default
 from rest_framework import serializers
-from tasks.models import CATEGORY_CHOICES, PRIO_CHOICES, STATUS_CHOICES, Subtask, Task
+from tasks.models import CATEGORY_CHOICES, STATUS_CHOICES, AssignedTo, Subtask, Task
 
 
 class TasksSerializer(serializers.ModelSerializer):
@@ -29,3 +28,8 @@ class SubtaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subtask
         fields = ['id', 'task', 'title', 'task_title']
+
+class AssignedToSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssignedTo
+        fields = '__all__'
