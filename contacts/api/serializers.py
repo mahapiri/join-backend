@@ -7,6 +7,7 @@ class ContactsSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=150)
     email = serializers.EmailField(max_length=254)
     phone = serializers.CharField(max_length=30)
+    color = serializers.CharField(max_length=100)
 
     class Meta:
         model = Contact
