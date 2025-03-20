@@ -1,5 +1,5 @@
 from django.db import models
-from profiles.models import Profile
+from contacts.models import Contact
 
 STATUS_CHOICES = [
     ("to_do", "To do"),
@@ -39,8 +39,8 @@ class Task(models.Model):
         return self.title
     
     def get_assigned_to(self):
-        profiles = [assignment.profile for assignment in self.assignedto_set.all()]
-        return ", ".join(str(profile) for profile in profiles) if profiles else "Keine Profile vorhanden"
+        contacts = [assignment.contact for assignment in self.assignedto_set.all()]
+        return ", ".join(str(contact) for contact in contacts) if contacts else "Keine Contacts vorhanden"
 
     def get_subtasks(self):
         return ", ".join(subtask.title for subtask in self.subtasks.all()) if self.subtasks.exists() else "keine Subtasks"
@@ -48,15 +48,15 @@ class Task(models.Model):
 class AssignedTo(models.Model):
     task = models.ForeignKey(
         Task, on_delete=models.CASCADE, related_name="assignments")
-    profile = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name="assignments")
+    contact = models.ForeignKey(
+        Contact, on_delete=models.CASCADE, related_name="assignments")
 
     class Meta:
         verbose_name = "Assigned To"
         verbose_name_plural = "Assigned To"
     
     def __str__(self):
-        return f"{self.task.title}: {self.profile}"
+        return f"{self.task.title}: {self.contact}"
 
 class Subtask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="subtasks")

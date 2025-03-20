@@ -20,7 +20,7 @@ class Contact(models.Model):
         name_parts = self.name.split(' ', 1)
 
         if len(name_parts) > 1:
-            return name_parts[0], name_parts[1]
+            return name_parts[0], name_parts[1]       
         return self.name, None
     
     def get_initial(self):

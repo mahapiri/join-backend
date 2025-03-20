@@ -77,14 +77,14 @@ class AssignedToViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         task_id = self.kwargs['task_id']
         # Assuming profile data is passed in the request
-        profile_data = request.data.get('profile')
+        contact_data = request.data.get('contact')
 
-        if not profile_data:
-            return Response({"detail": "Profile is required."}, status=status.HTTP_400_BAD_REQUEST)
+        if not contact_data:
+            return Response({"detail": "Contact is required."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Create the assigned-to entry
         assigned_to = AssignedTo.objects.create(
-            task_id=task_id, profile_id=profile_data)
+            task_id=int(task_id), contact_id=contact_data)
 
         # Use the serializer to return the created object
         serializer = AssignedToSerializer(assigned_to)

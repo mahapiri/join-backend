@@ -14,8 +14,8 @@ class SubtaskAdmin(admin.ModelAdmin):
     list_filter = ('task',)
 
 class AssignedToAdmin(admin.ModelAdmin):
-    list_display = ('task', 'profile')
-    search_fields = ('task', 'profile')
+    list_display = ('task', 'contact')
+    search_fields = ('task', 'contact')
     list_filter = ('task',)
 
 admin.site.register(Task, TaskAdmin)
