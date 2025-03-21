@@ -15,8 +15,8 @@ PRIO_CHOICES = [
 ]
 
 CATEGORY_CHOICES = [
-    ("technical_task", "Technical Task"),
-    ("user_story", "User Story"),
+    ("Technical Task", "Technical Task"),
+    ("User Story", "User Story"),
 ]
 
 # Create your models here.
