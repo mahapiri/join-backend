@@ -61,6 +61,7 @@ class AssignedTo(models.Model):
 class Subtask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="subtasks")
     title = models.CharField(max_length=255)
+    done = models.BooleanField()
 
     class Meta:
         verbose_name = "Subtask"

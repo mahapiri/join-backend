@@ -22,9 +22,10 @@ class TasksSerializer(serializers.ModelSerializer):
     
 class SubtaskSerializer(serializers.ModelSerializer):
     task_title = serializers.CharField(source="task.title", read_only=True)
+    done = serializers.BooleanField(required=False, default=False)
     class Meta:
         model = Subtask
-        fields = ['id', 'task', 'title', 'task_title']
+        fields = '__all__'
 
 class AssignedToSerializer(serializers.ModelSerializer):
     class Meta:
