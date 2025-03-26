@@ -1,6 +1,8 @@
 
 from encodings.punycode import T
 from rest_framework import generics, status, viewsets
+from rest_framework import permissions
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -65,6 +67,7 @@ class SubtaskDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
 class AssignedToViewSet(viewsets.ModelViewSet):
     queryset = AssignedTo.objects.all()
     serializer_class = AssignedToSerializer
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         task_id = self.kwargs['task_id']
@@ -89,3 +92,18 @@ class AssignedToViewSet(viewsets.ModelViewSet):
         # Use the serializer to return the created object
         serializer = AssignedToSerializer(assigned_to)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False, methods=['delete'])
+    def delete_all(self, request, task_id=None):
+        """Löscht alle 'AssignedTo'-Einträge für eine bestimmte 'task_id', gibt aber immer 200 OK zurück."""
+        assigned_objects = AssignedTo.objects.filter(task_id=task_id)
+
+        if assigned_objects.exists():
+            deleted_count, _ = assigned_objects.delete()
+            return Response({"detail": f"{deleted_count} Einträge gelöscht."}, status=status.HTTP_204_NO_CONTENT)
+        
+        # Falls keine Einträge existieren, trotzdem 200 OK zurückgeben
+        return Response({"detail": "Keine Einträge vorhanden, aber alles ok."}, status=status.HTTP_200_OK)
+
+
+

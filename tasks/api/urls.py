@@ -11,4 +11,5 @@ router.register(r'(?P<task_id>\d+)/assignedto', AssignedToViewSet, basename='ass
 # Die URL-Patterns zurückgeben, die der Router verwaltet
 urlpatterns = router.urls + [
     path('tasks/<int:task_id>/subtasks/<int:pk>/', SubtaskDetailViewSet.as_view(), name='subtask-detail'),
+    path('tasks/<int:task_id>/assignedto/delete_all/', AssignedToViewSet.as_view({'delete': 'delete_all'}), name='assignedto-delete-all'),
 ]
