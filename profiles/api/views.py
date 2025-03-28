@@ -6,4 +6,4 @@ from profiles.models import Profile
 class ProfilesViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all().order_by('pk')
     serializer_class = ProfilesSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
